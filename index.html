@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <title>MiniCut Studio — Video Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark">M</span><span>minicut<span class="brand-light"> studio</span></span></a>
+      <div class="top-actions">
+        <span class="save-state" id="saveState">พร้อมใช้งาน</span>
+        <button class="btn btn-dark" id="exportBtn" disabled>ส่งออกวิดีโอ <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="main-column">
+        <div class="section-heading">
+          <div><p class="eyebrow">VIDEO WORKSPACE</p><h1>ตัดต่อวิดีโอของคุณ</h1><p class="muted">สร้างซับไตเติ้ลสองภาษาให้ตรงกับเสียงในคลิป</p></div>
+          <button class="btn btn-outline" id="importBtn">＋ นำเข้าวิดีโอ</button>
+          <input id="videoInput" type="file" accept="video/*,.mp4,.mov,.webm,.m4v" hidden>
+        </div>
+
+        <section class="preview-card">
+          <div class="preview-top"><span class="live-dot"></span><span>ตัวอย่างวิดีโอ</span><span class="preview-hint">PREVIEW</span></div>
+          <div class="video-stage" id="videoStage">
+            <div class="empty-state" id="emptyState"><div class="upload-icon">↑</div><h2>เริ่มต้นด้วยวิดีโอของคุณ</h2><p>เลือกคลิปจากรูปภาพหรือไฟล์ในอุปกรณ์</p><button class="btn btn-dark" id="emptyImport">เลือกวิดีโอ</button></div>
+            <video id="video" playsinline controls hidden></video>
+            <div class="subtitle-preview" id="subtitlePreview" hidden><div id="previewThai"></div><div id="previewEnglish"></div></div>
+          </div>
+          <div class="video-meta"><span id="videoName">ยังไม่ได้เลือกวิดีโอ</span><span id="videoDuration">00:00</span></div>
+        </section>
+
+        <section class="timeline-card">
+          <div class="panel-heading"><div><h2>ซับไตเติ้ล</h2><p class="muted">แก้ไขข้อความและช่วงเวลาของแต่ละประโยค</p></div><button class="btn btn-soft" id="addSubtitleBtn" disabled>＋ เพิ่มข้อความ</button></div>
+          <div class="timeline-tools">
+            <button class="btn btn-soft" id="transcribeBtn" disabled>✦ สร้างซับไตเติ้ลด้วย AI</button>
+            <span class="muted small" id="subtitleCount">ยังไม่มีซับไตเติ้ล</span>
+          </div>
+          <div class="subtitle-list" id="subtitleList"><div class="list-empty">นำเข้าวิดีโอ แล้วกด “สร้างซับไตเติ้ลด้วย AI”</div></div>
+        </section>
+      </section>
+
+      <aside class="side-column">
+        <section class="settings-card">
+          <div class="panel-heading"><div><p class="eyebrow">CUSTOMIZE</p><h2>ปรับแต่งซับไตเติ้ล</h2></div><span class="settings-icon">Aa</span></div>
+          <div class="setting-group">
+            <label>รูปแบบตัวอักษร</label>
+            <select id="fontFamily"><option value="Noto Sans Thai">Noto Sans Thai</option><option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="DM Sans">DM Sans</option></select>
+          </div>
+          <div class="setting-grid">
+            <div class="setting-group"><label for="fontSize">ขนาดตัวอักษร</label><div class="range-line"><input id="fontSize" type="range" min="18" max="64" value="34"><output id="fontSizeValue">34</output></div></div>
+            <div class="setting-group"><label for="fontColor">สีตัวอักษร</label><div class="color-line"><input id="fontColor" type="color" value="#ffffff"><span id="colorValue">#FFFFFF</span></div></div>
+          </div>
+          <div class="setting-group"><label for="position">ตำแหน่งซับไตเติ้ล</label><select id="position"><option value="bottom">ด้านล่าง</option><option value="middle">ตรงกลาง</option><option value="top">ด้านบน</option></select></div>
+          <div class="setting-group"><label for="outline">เส้นขอบตัวอักษร</label><div class="range-line"><input id="outline" type="range" min="0" max="6" value="2"><output id="outlineValue">2</output></div></div>
+          <div class="setting-group"><label for="bgOpacity">พื้นหลังข้อความ</label><div class="range-line"><input id="bgOpacity" type="range" min="0" max="90" value="35"><output id="bgOpacityValue">35%</output></div></div>
+          <div class="setting-note"><span>ⓘ</span><span>การตั้งค่าจะใช้กับซับไตเติ้ลทั้งภาษาไทยและภาษาอังกฤษ</span></div>
+        </section>
+
+        <section class="export-card">
+          <p class="eyebrow">EXPORT SETTINGS</p><h2>ส่งออกวิดีโอ</h2>
+          <div class="setting-group"><label for="resolution">ความละเอียด</label><select id="resolution"><option value="original">ต้นฉบับ</option><option value="1080">1080p</option><option value="720">720p</option></select></div>
+          <p class="muted small">ระบบจะฝังซับไตเติ้ลลงในวิดีโอจริง ไฟล์ที่ส่งออกสามารถบันทึกลงเครื่องได้</p>
+          <button class="btn btn-dark btn-block" id="exportBtnSide" disabled>ส่งออกวิดีโอ <span>↗</span></button>
+        </section>
+        <div class="privacy-note">🔒 ไฟล์วิดีโอจะถูกส่งไปยังเซิร์ฟเวอร์ของโปรเจกต์เพื่อประมวลผล และไฟล์ชั่วคราวจะถูกลบหลังทำงานเสร็จ</div>
+      </aside>
+    </main>
+    <div class="toast" id="toast" role="status"></div>
+    <div class="busy-overlay" id="busyOverlay" hidden><div class="busy-box"><div class="spinner"></div><h3 id="busyTitle">กำลังประมวลผล</h3><p id="busyText">กรุณารอสักครู่ อย่าปิดหน้านี้</p></div></div>
+    <footer>MINICUT STUDIO <span>•</span> Simple editing, better stories.</footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
